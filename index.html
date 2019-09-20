@@ -39,7 +39,6 @@
 
       .edgar:after {
         transition: transform 0.2s ease-out;
-
       }
 
       .game {
@@ -71,6 +70,7 @@
         height: 1em;
         width: 1em;
         position: absolute;
+        z-index: -1;
       }
 
       .cube,
@@ -114,6 +114,7 @@
       }
 
       .slot:nth-child(1) {
+        z-index: 1;
         transform: translateZ(7em);
       }
       .slot:nth-child(2) {
