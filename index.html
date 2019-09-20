@@ -1,314 +1,366 @@
 <!doctype html>
 <html>
   <head>
-<style>
-  :root {
-    --cube-size: 50px;
-    --half-cube-size: calc(var(--cube-size) / 2);
-  }
+    <!--<link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700,800">-->
+    <style>
+      :root {
+        --cube-size: 50px;
+      }
 
-  .game {
-    margin-top: calc(var(--half-cube-size) * 7);
-    margin-left: calc(var(--half-cube-size) * 7);
-    /*perspective: 600px;*/
-    /*
-    transform: rotateZ(45deg);
-    */
-  }
+      * {
+        box-sizing: border-box:
+      }
 
-  .platform {
-    width: var(--cube-size);
-    height: var(--cube-size);
-    position: relative;
-    /*
-    transform: rotate3d(1, 0, 0, 20deg) rotate3d(0, 0, 1, 45deg) ;
-    transform-style: preserve-3d;
-    */
-  }
+      html {
+        height: 100%;
+      }
 
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-  }
+      body {
+        background-color: #ccdcdb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 670px;
+        height: 100%;
+      }
 
-  .p1 {
-    transform-style: preserve-3d;
-    transform: rotate3d(1, 0, 1, 45deg);
-  }
+      h1 {
+        text-align: center;
+        font-family: "Open Sans", sans-serif
+      }
 
-  .face {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-  .front {
-    transform: translateZ(var(--half-cube-size));
-    background-color: blue;
-  }
-  .back {
-    transform: rotateY(180deg) translateZ(var(--half-cube-size));
-    background-color: green;
-  }
-  .right {
-    transform: rotateY(90deg) translateZ(var(--half-cube-size));
-    background-color: red;
-  }
-  .left {
-    transform: rotateY(-90deg) translateZ(var(--half-cube-size));
-    background-color: purple;
-  }
-  .top {
-    transform: rotateX(90deg) translateZ(var(--half-cube-size));
-    background-color: yellow;
-  }
-  .bottom {
-    transform: rotateX(-90deg) translateZ(var(--half-cube-size));
-    background-color: brown;
-  }
+      .edgar {
+        position: absolute;
+        transform: rotateX(-90deg) translateY(-0.5em) rotateY(45deg);
+        transition: transform 0.2s ease-in-out;
+        width: 1em;
+        height: 1em;
 
-</style>
+      }
+
+      .game {
+        font-size: var(--cube-size);
+        background-color: hsla(0,0%,0%,.1);
+        background-image: -webkit-linear-gradient(hsla(0,0%,0%,.1) 2.5%, transparent 2.5%, transparent 97.5%, hsla(0,0%,0%,.1) 97.5%),
+                          -webkit-linear-gradient(left, hsla(0,0%,0%,.1) 2.5%, transparent 2.5%, transparent 97.5%, hsla(0,0%,0%,.1) 97.5%);
+        background-size: 1em 1em;
+        box-shadow: 0 0 0 .1em hsla(0,0%,0%,.2);
+        width: 7em;
+        /*
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        margin: -7.5em;
+        */
+        padding: 3em;
+        height: 7em;
+        transform: rotateX(45deg) rotateZ(45deg);
+        transform-style: preserve-3d;
+      }
+
+      .slot,
+      .cube,
+      .cube:after,
+      .cube:before {
+        content: '';
+        float: left;
+        height: 1em;
+        width: 1em;
+        position: absolute;
+      }
+
+      .cube,
+      .cube:after,
+      .cube:before {
+        box-shadow: inset 0 0 0 .05em hsla(0,0%,0%,.3);
+      }
+
+      .cube.visited {
+        background-color: #fabd2f;
+      }
+
+      .spacer {
+        background-color: transparent;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: translateZ(1em);
+      }
+
+      .slot {
+        position: relative;
+        transform-style: preserve-3d;
+        transform: translateZ(1em);
+      }
+
+      .cube {
+        box-shadow: inset 0 0 0 .05em hsla(0,0%,0%,.2);
+        background-color: #98971a;
+      }
+
+      .cube:after {
+        background-color: #aaa;
+        transform: rotateX(-90deg) translateY(1em);
+        transform-origin: 100% 100%;
+      }
+
+      .cube:before {
+        background-color: #999;
+        transform: rotateY(90deg) translateX(1em);
+        transform-origin: 100% 100%;
+      }
+
+      .slot:nth-child(1) {
+        transform: translateZ(7em);
+      }
+      .slot:nth-child(2) {
+        transform: translateZ(6em);
+      }
+      .slot:nth-child(3) {
+        transform: translateZ(5em);
+      }
+      .slot:nth-child(4) {
+        transform: translateZ(4em);
+      }
+      .slot:nth-child(5) {
+        transform: translateZ(3em);
+      }
+      .slot:nth-child(6) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(7) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(8) {
+        transform: translateZ(6em);
+      }
+      .slot:nth-child(9) {
+        transform: translateZ(5em);
+      }
+      .slot:nth-child(10) {
+        transform: translateZ(4em);
+      }
+      .slot:nth-child(11) {
+        transform: translateZ(3em);
+      }
+      .slot:nth-child(12) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(13) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(14) {
+      }
+      .slot:nth-child(15) {
+        transform: translateZ(5em);
+      }
+      .slot:nth-child(16) {
+        transform: translateZ(4em);
+      }
+      .slot:nth-child(17) {
+        transform: translateZ(3em);
+      }
+      .slot:nth-child(18) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(19) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(20) {
+      }
+      .slot:nth-child(21) {
+      }
+      .slot:nth-child(22) {
+        transform: translateZ(4em);
+      }
+      .slot:nth-child(23) {
+        transform: translateZ(3em);
+      }
+      .slot:nth-child(24) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(25) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(26) {
+      }
+      .slot:nth-child(27) {
+      }
+      .slot:nth-child(28) {
+      }
+      .slot:nth-child(29) {
+        transform: translateZ(3em);
+      }
+      .slot:nth-child(30) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(31) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(32) {
+      }
+      .slot:nth-child(33) {
+      }
+      .slot:nth-child(34) {
+      }
+      .slot:nth-child(35) {
+      }
+      .slot:nth-child(36) {
+        transform: translateZ(2em);
+      }
+      .slot:nth-child(37) {
+        transform: translateZ(1em);
+      }
+      .slot:nth-child(38) {
+      }
+      .slot:nth-child(39) {
+      }
+      .slot:nth-child(40) {
+      }
+      .slot:nth-child(41) {
+      }
+      .slot:nth-child(42) {
+      }
+      .slot:nth-child(43) {
+        transform: translateZ(1em);
+      }
+    </style>
+
+  <script>
+    let edgarPosition = { x: 0, y: 0 };
+
+    function getTransform(x, y) {
+      const z = x + y;
+      return `translateY(${y}em) translateX(${x}em) rotateX(-90deg) translateY(-0.5em) rotateY(45deg) translateZ(${z}em)`;
+    }
+
+    function offBoard(pos) {
+      if (pos.x < 0 || pos.y < 0 || (pos.x + pos.y) > 6) {
+        alert("Dead");
+        return true;
+      }
+      return false;
+    }
+
+    function reset() {
+      edgarPosition.x = 0;
+      edgarPosition.y = 0;
+      document.querySelectorAll(".visited").forEach(v => v.classList.remove("visited"));
+      document.querySelector(".slot:nth-child(1)").classList.add("visited");
+      update();
+    }
+
+    function update() {
+      const edgar = document.getElementsByClassName("edgar")[0];
+      edgar.style.transform = getTransform(edgarPosition.x, edgarPosition.y);
+      if (offBoard(edgarPosition)) {
+        reset();
+      }
+    }
+
+    function visit(pos) {
+      const childNum = (pos.y * 7) + (pos.x + 1);
+      const cube = document.querySelector(`.slot:nth-child(${childNum})`);
+      cube.classList.add("visited");
+    }
+
+    function checkForWin() {
+      const visitedCubes = document.querySelectorAll(".visited");
+      const allCubes = document.querySelectorAll(".cube");
+      if (visitedCubes.length === allCubes.length) {
+        alert("You win!")
+        reset();
+      }
+    }
+
+    function handlePlayerInput(e) {
+      if (e.key === "w") {
+        edgarPosition.x -= 1;
+      }
+
+      if (e.key === "f") {
+        edgarPosition.x += 1;
+      }
+
+      if (e.key === "s") {
+        edgarPosition.y += 1;
+      }
+
+      if (e.key === "r") {
+        edgarPosition.y -= 1;
+      }
+
+      update();
+      visit(edgarPosition)
+      checkForWin();
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){ 
+      document.addEventListener("keypress", handlePlayerInput);
+      update()
+    }, false);
+  </script>
+
   </head>
   <body>
+    <!--<h1>Ed*bert</h1>-->
     <div class="game">
-      <div class="row row1">
-        <div class="platform p1">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
+        <div class="slot cube visited">
+          <img class="edgar" src="edgar.jpg" />
         </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="platform">
-          <div class="face front"></div>
-          <div class="face back"></div>
-          <div class="face right"></div>
-          <div class="face left"></div>
-          <div class="face top"></div>
-          <div class="face bottom"></div>
-        </div>
-      </div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+
+        <div class="slot cube"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
+        <div class="slot spacer"></div>
     </div>
   </body>
 </html>
