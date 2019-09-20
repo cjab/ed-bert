@@ -31,10 +31,14 @@
 
       .edgar {
         position: absolute;
-        transform: rotateX(-90deg) translateY(-0.5em) rotateY(45deg);
-        transition: transform 0.2s ease-in-out;
-        width: 1em;
-        height: 1em;
+        transform: rotateX(-90deg) translateY(-0.9em) rotateY(45deg);
+        transition: transform 0.2s ease-in;
+        width: 1.3em;
+        height: 1.3em;
+      }
+
+      .edgar:after {
+        transition: transform 0.2s ease-out;
 
       }
 
@@ -230,7 +234,7 @@
 
     function getTransform(x, y) {
       const z = x + y;
-      return `translateY(${y}em) translateX(${x}em) rotateX(-90deg) translateY(-0.5em) rotateY(45deg) translateZ(${z}em)`;
+      return `translateY(${y}em) translateX(${x}em) rotateX(-90deg) translateY(-0.9em) rotateY(45deg) translateZ(${z}em)`;
     }
 
     function offBoard(pos) {
@@ -305,7 +309,7 @@
     <!--<h1>Ed*bert</h1>-->
     <div class="game">
         <div class="slot cube visited">
-          <img class="edgar" src="edgar.jpg" />
+          <img class="edgar" src="logo.png" />
         </div>
         <div class="slot cube"></div>
         <div class="slot cube"></div>
